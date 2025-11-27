@@ -17,8 +17,11 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Definir repo owner en minúsculas
+        run: echo "REPO_OWNER=$(echo $GITHUB_REPOSITORY_OWNER | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
+
       - name: Construir imagen
-        run: docker build -t ghcr.io/${{ github.repository_owner,, }}/lab-docker-web:latest .
+        run: docker build -t ghcr.io/$REPO_OWNER/lab-docker-web:latest .
 
       - name: Publicar imagen en GHCR
-        run: docker push ghcr.io/${{ github.repository_owner,, }}/lab-docker-web:latest
+        run: docker push ghcr.io/$REPO_OWNER/lab-docker-web:latest
